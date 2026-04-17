@@ -1,0 +1,318 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Unity笔记 | zyk的垃圾屋</title><meta name="author" content="Zyk"><meta name="copyright" content="Zyk"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="前面的有些关于GameObject没记我会一点点腾挪进来 Time时间缩放比例&#x2F;&#x2F;时间停止Time.timeScale &#x3D; 0;  &#x2F;&#x2F;恢复正常Time.timeScale &#x3D; 1; &#x2F;&#x2F;2倍速Time.timeScale &#x3D; 2; 帧间隔时间&#x2F;&#x2F;帧间隔时间主要是拿来计算位移的&#x2F;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Unity笔记">
+<meta property="og:url" content="http://zykblog.cn/2026/04/17/%E4%B8%80%E4%BA%9BUnity%20%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="zyk的垃圾屋">
+<meta property="og:description" content="前面的有些关于GameObject没记我会一点点腾挪进来 Time时间缩放比例&#x2F;&#x2F;时间停止Time.timeScale &#x3D; 0;  &#x2F;&#x2F;恢复正常Time.timeScale &#x3D; 1; &#x2F;&#x2F;2倍速Time.timeScale &#x3D; 2; 帧间隔时间&#x2F;&#x2F;帧间隔时间主要是拿来计算位移的&#x2F;">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s41.ax1x.com/2026/04/16/pesTHKO.md.jpg">
+<meta property="article:published_time" content="2026-04-17T05:42:00.000Z">
+<meta property="article:modified_time" content="2026-04-17T05:43:03.867Z">
+<meta property="article:author" content="Zyk">
+<meta property="article:tag" content="笔记展示，作品展示">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s41.ax1x.com/2026/04/16/pesTHKO.md.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Unity笔记",
+  "url": "http://zykblog.cn/2026/04/17/%E4%B8%80%E4%BA%9BUnity%20%E7%AC%94%E8%AE%B0/",
+  "image": "https://s41.ax1x.com/2026/04/16/pesTHKO.md.jpg",
+  "datePublished": "2026-04-17T05:42:00.000Z",
+  "dateModified": "2026-04-17T05:43:03.867Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Zyk",
+      "url": "http://zykblog.cn"
+    }
+  ]
+}</script><link rel="shortcut icon" href="https://s41.ax1x.com/2026/04/16/pes2HKA.png"><link rel="canonical" href="http://zykblog.cn/2026/04/17/%E4%B8%80%E4%BA%9BUnity%20%E7%AC%94%E8%AE%B0/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=5.5.4"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          const mediaQueryDark = window.matchMedia('(prefers-color-scheme: dark)')
+          const mediaQueryLight = window.matchMedia('(prefers-color-scheme: light)')
+
+          if (theme === undefined) {
+            if (mediaQueryLight.matches) activateLightMode()
+            else if (mediaQueryDark.matches) activateDarkMode()
+            else {
+              const hour = new Date().getHours()
+              const isNight = hour <= 6 || hour >= 18
+              isNight ? activateDarkMode() : activateLightMode()
+            }
+            mediaQueryDark.addEventListener('change', () => {
+              if (saveToLocal.get('theme') === undefined) {
+                e.matches ? activateDarkMode() : activateLightMode()
+              }
+            })
+          } else {
+            theme === 'light' ? activateLightMode() : activateDarkMode()
+          }
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":1,"unescape":false,"pagination":{"enable":true,"hitsPerPage":8},"languages":{"hits_empty":"未找到符合您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":230,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.13.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: true
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Unity笔记',
+  isHighlightShrink: true,
+  isToc: true,
+  pageType: 'post'
+}</script><link rel="stylesheet" href="/css/cat.css"><link rel="stylesheet" href="/css/readPercent.css"><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="/css/custom.css"><div id="myscoll"></div><meta name="generator" content="Hexo 8.1.1"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      if ($loadingBox.classList.contains('loaded')) return
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+
+  if (document.readyState === 'complete') {
+    preloader.endLoading()
+  } else {
+    window.addEventListener('load', preloader.endLoading)
+    document.addEventListener('DOMContentLoaded', preloader.endLoading)
+    // Add timeout protection: force end after 7 seconds
+    setTimeout(preloader.endLoading, 7000)
+  }
+
+  if (false) {
+    btf.addGlobalFn('pjaxSend', preloader.initLoading, 'preloader_init')
+    btf.addGlobalFn('pjaxComplete', preloader.endLoading, 'preloader_end')
+  }
+})()</script><div class="bg-animation" id="web_bg" style="background-image: url(https://img.imgos.cn/cdn/20260416/32e720249fd02a5f00efea26714ff334.jpg);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="https://s41.ax1x.com/2026/04/16/pes2Tvd.md.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">2</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">0</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fas fa-envelope-square"></i><span> 留言板</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 列表</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(https://s41.ax1x.com/2026/04/16/pesTHKO.md.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">zyk的垃圾屋</span></a><a class="nav-page-title" href="/"><span class="site-name">Unity笔记</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fas fa-envelope-square"></i><span> 留言板</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 列表</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">Unity笔记</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-04-17T05:42:00.000Z" title="发表于 2026-04-17 13:42:00">2026-04-17</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-04-17T05:43:03.867Z" title="更新于 2026-04-17 13:43:03">2026-04-17</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><p>前面的有些关于GameObject没记我会一点点腾挪进来</p>
+<h1 id="Time"><a href="#Time" class="headerlink" title="Time"></a>Time</h1><h3 id="时间缩放比例"><a href="#时间缩放比例" class="headerlink" title="时间缩放比例"></a>时间缩放比例</h3><p>&#x2F;&#x2F;时间停止<br>Time.timeScale &#x3D; 0; </p>
+<p>&#x2F;&#x2F;恢复正常<br>Time.timeScale &#x3D; 1;</p>
+<p>&#x2F;&#x2F;2倍速<br>Time.timeScale &#x3D; 2;</p>
+<h3 id="帧间隔时间"><a href="#帧间隔时间" class="headerlink" title="帧间隔时间"></a>帧间隔时间</h3><p>&#x2F;&#x2F;帧间隔时间主要是拿来计算位移的<br>&#x2F;&#x2F;根据需求 选择参与计算的间隔时间<br>&#x2F;&#x2F;希望游戏暂停时不动就用deltaTime<br>&#x2F;&#x2F;希望游戏暂停时动的用unscaledDeltaTime<br>&#x2F;&#x2F;受Scale影响<br>Time.deltaTime<br>&#x2F;&#x2F;不受Scale影响<br>Time.unscaledDeltaTime</p>
+<h3 id="游戏开始到现在的时间"><a href="#游戏开始到现在的时间" class="headerlink" title="游戏开始到现在的时间"></a>游戏开始到现在的时间</h3><p>&#x2F;&#x2F;作用单机游戏中计时<br>&#x2F;&#x2F;受Scale影响的时间<br>Time.time<br>&#x2F;&#x2F;不受scale影响<br>Time.unscaleTime</p>
+<h3 id="物理帧间隔时间-FixedUpdate"><a href="#物理帧间隔时间-FixedUpdate" class="headerlink" title="物理帧间隔时间 FixedUpdate"></a>物理帧间隔时间 FixedUpdate</h3><p>&#x2F;&#x2F;受scale影响<br>Time.fixedDeltaTime<br>&#x2F;&#x2F;不受scale影响<br>Time.fixedUnscaledDeltaTime</p>
+<h3 id="帧数"><a href="#帧数" class="headerlink" title="帧数"></a>帧数</h3><p>&#x2F;&#x2F;从开始到现在跑了多少帧<br>Time.frameCount</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>Time相关的内容最常用的是帧间隔时间（计算位移），时间缩放比例（暂停，倍速）， 帧数（帧同步）</p>
+<h1 id="Transform"><a href="#Transform" class="headerlink" title="Transform"></a>Transform</h1><h3 id="vector3"><a href="#vector3" class="headerlink" title="vector3"></a>vector3</h3><p>&#x2F;&#x2F; 主要是用来表示三位坐标系中的一个点 或者一个向量<br>&#x2F;&#x2F;申明<br>Vector3 v &#x3D; new Vector3();&#x2F;&#x2F;无参构造<br>v.x &#x3D; 10;<br>v.y &#x3D; 10;<br>v.z &#x3D; 10;<br>&#x2F;&#x2F;只传x,y默认z &#x3D;10<br>Vector3 v2 &#x3D; new Vector3(10, 10)；<br>&#x2F;&#x2F;一步到位<br>Vector3 v3 &#x3D; new Vector3(10,10,10);</p>
+<p>&#x2F;&#x2F;结构体可以不用new<br>Vector3 v4;</p>
+<h4 id="Vector3基本运算"><a href="#Vector3基本运算" class="headerlink" title="Vector3基本运算"></a>Vector3基本运算</h4><p>&#x2F;&#x2F; + - * &#x2F; 就是对应的xyz都运算<br>Vector3 v1 &#x3D; new Vector3(1, 1, 1);<br>Vector3 v12 &#x3D; new Vector3(2, 2, 2);<br>v1 + v12 &#x3D; (3, 3, 3);</p>
+<p>&#x2F;&#x2F;常用的<br>Vector3.zero &#x2F;&#x2F; 000<br>Vector3.right &#x2F;&#x2F; 100;<br>Vector3.left &#x2F;&#x2F; -100;<br>Vector3.forward &#x2F;&#x2F; 001;<br>Vector3.back &#x2F;&#x2F; 00-1<br>Vector3.up &#x2F;&#x2F; 010<br>Vector3.down &#x2F;&#x2F; 0-10</p>
+<p>&#x2F;&#x2F;计算距离的方法<br>Vector3.Distance(v1, v12);</p>
+<h3 id="位置"><a href="#位置" class="headerlink" title="位置"></a>位置</h3><p>&#x2F;&#x2F;世界坐标系(物体如果有父对象的话可能和面板不一样)<br>this.gameObject.transform.position<br>&#x2F;&#x2F;相对父对象<br>this.transform.localPosition</p>
+<p>&#x2F;&#x2F;注意 位置的赋值不能直接改变x, y, z只能整体改变<br>this.transform.position.x &#x3D; 10;&#x2F;&#x2F;这个写法是错误的，会报错<br>正确写法只能:<br>this.tansform.position &#x3D; new Vector3(10, 10, 10);<br>this.transform.localPosition &#x3D; Vector3.up * 10;<br> &#x2F;&#x2F;如果想要只改一个值:<br>&#x2F;&#x2F;直接赋值 this.transform.position &#x3D; new Vector3(10, this.transform.position.y,this.transform.position.z);<br> &#x2F;&#x2F;虽然不能直接改transform的xyz但是可以改Vector3的xyz<br> &#x2F;&#x2F;可以先取出来改Vector3再赋值<br> Vector3 vPos &#x3D; this.transorm.localPosition;<br> vPos.x &#x3D; 10;<br> this.transform.localPosition &#x3D; vPos;</p>
+<p>&#x2F;&#x2F;对象当前的各朝向<br>this.transform.forward<br>this.transform.up<br>this.transform.right<br>…</p>
+<p>&#x2F;&#x2F;位移<br>位移 &#x3D; 方向 * 速率 * 时间</p>
+<p>&#x2F;&#x2F;方式一 自己计算<br>&#x2F;&#x2F;变化position<br>this.transform.position +&#x3D; this.transform.forward * v * Time.deltaTime;</p>
+<p>&#x2F;&#x2F;方式二 API<br>&#x2F;&#x2F;参数一 位移多少<br>&#x2F;&#x2F;参数二 相对坐标系 （坐标系中找向量）<br>this.transform.Translate(Vector3.forward * 1 * Time.deltaTime)&#x2F;&#x2F;不写第二个参数默认local的方向<br>this.transform.Translate(Vector3.forward * Time.deltaTime * speed, Space.World);&#x2F;&#x2F;世界<br>this.transform.Translate(this.transform.forward * Time.deltaTime * speed, Space.World);&#x2F;&#x2F;</p>
+<h3 id="角度和旋转"><a href="#角度和旋转" class="headerlink" title="角度和旋转"></a>角度和旋转</h3><h4 id="角度"><a href="#角度" class="headerlink" title="角度"></a>角度</h4><p>&#x2F;&#x2F;相对世界坐标角度:<br>this.transform.eulerAngles<br>&#x2F;&#x2F;相对父对象的角度<br>this.transform.localEulerAngel<br>和位置差不多</p>
+<h4 id="旋转"><a href="#旋转" class="headerlink" title="旋转"></a>旋转</h4><p>&#x2F;&#x2F;自转<br>和位置变化类似<br>&#x2F;&#x2F;每个轴具体转多少度<br>this.transform.Rotate(new Vector3(0, 10, 0) * Time.deltaTime);<br>this.transform.Rotate(new Vector3(0, 10, 0) * Time.deltaTime, Space.World);</p>
+<p>&#x2F;&#x2F;相对于某个轴 转多少度<br>&#x2F;&#x2F;参数一 相对哪个轴进行转动<br>&#x2F;&#x2F;参数二 转动的角度是多少<br>&#x2F;&#x2F;参数惨 默认不填 就是相对自己的坐标轴<br>		填了 可以填写关于世界坐标轴进行旋转<br>this.transform.Rotate(Vector3.up, 10 * Time.deltaTime， Space.World);</p>
+<p>&#x2F;&#x2F;相对某一个点转<br>&#x2F;&#x2F;参数一 相对与哪一个点<br>&#x2F;&#x2F;参数二 相对于与点的哪一个轴<br>&#x2F;&#x2F;参数三 转动的角度<br>this.transform.RotateAround(Vector3.zero, Vector3.up, 10 * Time.deltaTime);</p>
+<h3 id="缩放和看向"><a href="#缩放和看向" class="headerlink" title="缩放和看向"></a>缩放和看向</h3><h4 id="缩放"><a href="#缩放" class="headerlink" title="缩放"></a>缩放</h4><p>&#x2F;&#x2F;相对世界坐标系<br>this.transform.lossyScale<br>&#x2F;&#x2F;相对本地坐标系<br>this.transform.localScale</p>
+<p>&#x2F;&#x2F;注意 缩放不能只改xyz只能一起改 （相对于世界坐标系的缩放大小只能得不能改）<br>所以我们一般修改缩放大小 都是改的 相对于父对象的缩放大小 localScale</p>
+<p>缩放没有API<br>想让缩放发生变化只能自己去写</p>
+<h4 id="看向"><a href="#看向" class="headerlink" title="看向"></a>看向</h4><p>让一个对象面朝向 可以一直看向某一个点或者某一个对象<br>this.transform.lookAt(Vector3.zero);</p>
+<h3 id="父子关系"><a href="#父子关系" class="headerlink" title="父子关系"></a>父子关系</h3><p>this.tranform.parent.name<br>this.transform &#x3D; null;&#x2F;&#x2F;父子关系设为空<br>this.transform.parent &#x3D; GameObject.Find(“xxx”).transform;&#x2F;&#x2F;设置新的父子关系</p>
+<p>通过API设置<br>this.transform.SetParent(null);<br>this.transform.SetParent(GameObject.Find(“xxx”).transform);</p>
+<p>&#x2F;&#x2F;参数一 我的父亲<br>&#x2F;&#x2F;参数二 是否保留世界坐标的 位置 角度 缩放 信息 true false<br>true 会保留 世界坐标下的状态 和父对象进行计算之后 得到本地坐标系的信息<br>false 不会保留 会直接把世界坐标系下的 位置角度缩放直接赋值到本地坐标系下</p>
+<p>&#x2F;&#x2F;抛妻弃子：断绝所有子对象的联系<br>this.transform.DetachChildren();</p>
+<p>&#x2F;&#x2F;获取子对象:<br>&#x2F;&#x2F;按名字寻找<br>&#x2F;&#x2F;找到儿子transform信息<br>&#x2F;&#x2F;这个Find能找到失活的对象的 GameObject相关找不到 失活对象<br>&#x2F;&#x2F;只能找自己的儿子而找不到孙子及以下<br>this.transform.Find(“xxx”);<br>&#x2F;&#x2F;虽然效率比GameObject.Find()高 但是必须知道父亲是谁才能找</p>
+<p>&#x2F;&#x2F;遍历儿子<br>&#x2F;&#x2F;得到有多少个儿子(包括失活的)<br>&#x2F;&#x2F;不算孙子<br>this.transform.childrenCount<br>&#x2F;&#x2F;通过索引号得到自己儿子<br>&#x2F;&#x2F;编号超过儿子数的范围 会直接报错<br>this.transform.GetChild(int index);<br>for(int i &#x3D; 0; i &lt; this.transform.childCount; i ++)</p>
+<p>&#x2F;&#x2F;儿子的操作:</p>
+<p>&#x2F;&#x2F;判断自己的爸爸是谁<br>public Transform son;<br>son.IsChildOf(this.transform) 返回值是bool值<br>&#x2F;&#x2F;得到自己作为儿子的编号<br>son.GetSiblingIndex()<br>&#x2F;&#x2F;把自己设置成第一个儿子<br>son.SetAsFirstSibling();<br>&#x2F;&#x2F;把自己设置成最后一个儿子<br>son.SetAsLastSibling();<br>&#x2F;&#x2F;把自己设置为指定个儿子<br>&#x2F;&#x2F;就算index 超出儿子数量 不会报错 会设置成最后一个（负数和大于数量）<br>son.SetSiblingIndex(int index)</p>
+<h3 id="坐标转换"><a href="#坐标转换" class="headerlink" title="坐标转换"></a>坐标转换</h3><p>&#x2F;&#x2F;世界坐标转本地坐标</p>
+<p>&#x2F;&#x2F;世界坐标系的点 转换 本地坐标系的点<br>&#x2F;&#x2F;受缩放的影响<br>this.transform.InverseTransnsformPosition(Vector3.forward)</p>
+<p>&#x2F;&#x2F;世界坐标的方向 转换 本地坐标的方向<br>&#x2F;&#x2F;不受缩放影响<br>this.transform.InverseTransformDirection(Vector3.forward)<br>&#x2F;&#x2F;受缩放影响<br>this.transform.InverseTransformVector(vector3.forward)</p>
+<p>&#x2F;&#x2F;本地坐标转世界坐标<br><em><strong>特别重要</strong></em><br>&#x2F;&#x2F;本地坐标系的点 转换 世界坐标系的点<br>&#x2F;&#x2F;受缩放影响<br>this.transform.TransformPoint(Vector3.forward)</p>
+<p>&#x2F;&#x2F;本地坐标系的方向 转换 世界坐标系的方向<br>&#x2F;&#x2F;不受缩放影响<br>this.transform.TransformDirection(Vector3.forward)<br>&#x2F;&#x2F;受缩放影响<br>this.transform.TransformVector(Vector3.forward)</p>
+<h1 id="input输入"><a href="#input输入" class="headerlink" title="input输入"></a>input输入</h1><h3 id="鼠标键盘输入"><a href="#鼠标键盘输入" class="headerlink" title="鼠标键盘输入"></a>鼠标键盘输入</h3><p>&#x2F;&#x2F;鼠标位置 屏幕原点在左下角 往右是x轴正方向 往上是y轴正方向<br>&#x2F;&#x2F;返回值是Vector3 只有x y有值 z一直为0<br>Input.mousePosition</p>
+<p>&#x2F;&#x2F;检测鼠标输入<br>&#x2F;&#x2F;0左键 1右键 2中键<br>&#x2F;&#x2F;鼠标按下<br>Input.GetMouseButtonDown(0)<br>&#x2F;&#x2F;鼠标抬起<br>Inpput.GetMouseButtonUp(0)<br>&#x2F;&#x2F;长按按下抬起都会input<br>Input.GetMouseButton(0)</p>
+<p>&#x2F;&#x2F;中键滚动<br>&#x2F;&#x2F;返回值是Vector2 中键滚动改变的是y的值<br>&#x2F;&#x2F;返回值y -1下 0 1上<br>Input.mouseScrollDelta</p>
+<p>&#x2F;&#x2F;检测键盘输入<br>&#x2F;&#x2F;键盘按下 （推荐使用）<br>Input.GetKeyDown(KeyCode.X)&#x2F;&#x2F;X是按键</p>
+<p>&#x2F;&#x2F;传入字符串的重载<br>&#x2F;&#x2F;这里传入的字符串不能是大写的 只能是小写的 不然会报错<br>Input.GetKeyDown(“q”)</p>
+<p>&#x2F;&#x2F;键盘抬起<br>Input.GetKeyUp(KeyCode.Space)</p>
+<p>&#x2F;&#x2F;键盘长按<br>Input.GetKey(KeyCode.W)</p>
+<h3 id="检测默认轴输入"><a href="#检测默认轴输入" class="headerlink" title="检测默认轴输入"></a>检测默认轴输入</h3><p>&#x2F;&#x2F;Unity提供了更方便的方法来帮助我们控制对象的位移和旋转</p>
+<p>记不住可以看 Project Setting-Input Manager<br>&#x2F;&#x2F;键盘AD按下时返回  -1 到 1之间的变换<br>&#x2F;&#x2F;相当于 得到的这个值 就是我们左右方向 我们可以通过它来控制 对象左右移动 或左右旋转<br>Input.GetAxis(“Horizontal”)<br>&#x2F;&#x2F;键盘SW按下时返回  -1 到 1之间的变换<br>&#x2F;&#x2F;相当于 得到的这个值 就是我们左右方向 我们可以通过它来控制 对象上下移动 或上下旋转<br>Input.GetAxis(“Vertical”)<br>&#x2F;&#x2F;鼠标横向移动时 -1 到 1 左 右<br>Input.GetAxis(“Mouse X”)<br>&#x2F;&#x2F;鼠标竖向移动时 -1 到 1 下 上<br>Input.GetAxis(“Mouse Y”)<br>&#x2F;&#x2F;GetAxis是有渐变的会出现-1<del>0</del>1间的小数</p>
+<p>&#x2F;&#x2F;GetAxisRaw方法 和 GetAxis方法一样<br>&#x2F;&#x2F;但是 返回值只有-1 0 1不会有中间值</p>
+<h3 id="其它类输入"><a href="#其它类输入" class="headerlink" title="其它类输入"></a>其它类输入</h3><p>&#x2F;&#x2F;是否有任意键或鼠标 长按<br>Input.anyKey<br>&#x2F;&#x2F;是否有任意键或鼠标 按下<br>Input.anyKeyDown<br>&#x2F;&#x2F;这一帧的键盘输入<br>Input.inputString</p>
+<h4 id="手柄输入"><a href="#手柄输入" class="headerlink" title="手柄输入"></a>手柄输入</h4><p>&#x2F;&#x2F;得到连接的手柄的所有按钮名字<br>string[]  strs &#x3D; Input.GetJoystickNames();</p>
+<p>&#x2F;&#x2F;某一个手柄键按下<br>if(Input.GetButtonDown(“Jump”))…<br>&#x2F;&#x2F;某一个手柄键抬起<br>if(Input.GetButtonUp(“Jump”))…<br>&#x2F;&#x2F;某一个手柄键长按<br>if(Input.GetButton(“Jump”))…</p>
+<h4 id="移动设备输入"><a href="#移动设备输入" class="headerlink" title="移动设备输入"></a>移动设备输入</h4><p>&#x2F;&#x2F;移动设备触摸相关<br>if(Input.touchCount &gt; 0)<br>{<br>	Touch t1 &#x3D; Input.touches[0];<br>&#x2F;&#x2F;位置<br>t1.position<br>相对上次位置的变化<br>t1.deltaPosition<br>}<br>&#x2F;&#x2F;是否启用多点触控<br>Input.multiTouchEnabled &#x3D; false&#x2F;true</p>
+<h4 id="陀螺仪-重力感应"><a href="#陀螺仪-重力感应" class="headerlink" title="陀螺仪(重力感应)"></a>陀螺仪(重力感应)</h4><p>&#x2F;&#x2F;是否开启陀螺仪 必须开启 才能正常使用<br>Input.gyro.enabled &#x3D; true;<br>&#x2F;&#x2F;重力加速度向量<br>Input.gyro.gravity<br>&#x2F;&#x2F;旋转速度<br>Input.gyro.rotationRate</p>
+<p>&#x2F;&#x2F; 陀螺仪 当前的旋转四元数<br>&#x2F;&#x2F;比如 用这个信息来控制 场景上一个3D物体受重力影响<br>&#x2F;&#x2F;手机怎么动 它怎么动<br>Input.gyro.attitude</p>
+<h3 id="总结-1"><a href="#总结-1" class="headerlink" title="总结"></a>总结</h3><p>必须记住鼠标键盘相关的输入相关API GetAxis<br>剩下的有需求了再了解</p>
+<h1 id="Screen屏幕相关"><a href="#Screen屏幕相关" class="headerlink" title="Screen屏幕相关"></a>Screen屏幕相关</h1><h3 id="静态属性"><a href="#静态属性" class="headerlink" title="静态属性"></a>静态属性</h3><h4 id="常用"><a href="#常用" class="headerlink" title="常用:"></a>常用:</h4><p>&#x2F;&#x2F;获取当前屏幕分辨率(设备)<br>Resolution r &#x3D; Screen.CurrentResolution;&#x2F;&#x2F;Resolution类有宽高和刷新率<br>print(r.height + “ “ + r.width);&#x2F;&#x2F;打印宽高</p>
+<p>&#x2F;&#x2F;屏幕窗口当前宽高(窗口)<br>Screen.width<br>Screen.height</p>
+<p>&#x2F;&#x2F;屏幕休眠模式<br>Screen.sleepTimeout &#x3D; SleepTimeout.NeverSleep;<br>Screen.sleepTimeout &#x3D; SleepTimeout.SystemSetting;</p>
+<h4 id="不常用"><a href="#不常用" class="headerlink" title="不常用"></a>不常用</h4><p>&#x2F;&#x2F;运行时是否全屏模式<br>Screen.fullScreen &#x3D; ture;<br>&#x2F;&#x2F;窗口模式<br>发布时能设置 只有有特殊需求才用代码设置<br>&#x2F;&#x2F;独占全屏FullScreenMode.ExclusiveFullScreen<br>&#x2F;&#x2F;全屏窗口FullScreenMode.FullScreenWindow<br>&#x2F;&#x2F;最大化窗口FullScreenMode.MaximizedWindow<br>&#x2F;&#x2F;窗口模式FullScreenMode.Windowed<br>Screen.fullScreenMode &#x3D; FullScreenMode.ExclusiveFullScreen<br>Screen.fullScreenMode &#x3D; FullScreenMode.FullScreenWindow<br>Screen.fullScreenMode &#x3D; FullScreenMode.MaximizedWindow<br>Screen.fullScreenMode &#x3D; FullScreenMode.Windowed</p>
+<p>&#x2F;&#x2F;移动设备屏幕转向相关<br>&#x2F;&#x2F;发布时能设置 只有有特殊需求才用代码设置<br>&#x2F;&#x2F;允许自动旋转为左横向 Home键在左<br>Screen.autorotateToLandscapeLeft &#x3D; true;<br>&#x2F;&#x2F;允许自动旋转为右横向 Home键在右<br>Screen.autorotateToLandscapeRight &#x3D; true;<br>&#x2F;&#x2F;允许自动旋转到纵向 Home键在下<br>Screen.autorotateToPortrait &#x3D; true;<br>&#x2F;&#x2F;允许自动旋转到纵向倒着看 Home键在上<br>Screen.autorotateToPortraitUpsideDown &#x3D; true;</p>
+<p>&#x2F;&#x2F;指定屏幕显示方向<br>Screen.orientation &#x3D; ScreenOrientation.Landscape(横屏)</p>
+<h3 id="静态方法"><a href="#静态方法" class="headerlink" title="静态方法"></a>静态方法</h3><p>&#x2F;&#x2F;设置分辨率 一遍移动设备不用<br>第三个参数 是否全屏<br>Screen.SetResolution(1920, 1080, false);</p>
+<h1 id="Camera"><a href="#Camera" class="headerlink" title="Camera"></a>Camera</h1><p>![[QQ_1775800913161.png|126]]<br>以上标红的参数都比较重要</p>
+<h3 id="代码相关"><a href="#代码相关" class="headerlink" title="代码相关"></a>代码相关</h3><p>&#x2F;&#x2F;重要静态成员<br>&#x2F;&#x2F;获取摄像机<br>&#x2F;&#x2F;主摄像机<br>&#x2F;&#x2F;如果想要通过这个方式快速获取谁相机 场景上一定要打MainCamera的tag<br>Camera.main<br>&#x2F;&#x2F;获取摄像机的数量<br>Camera.allCameraCount<br>&#x2F;&#x2F;得到所有摄像机<br>Camera[] &#x3D; allCamera &#x3D; Camera.allCameras;</p>
+<p>&#x2F;&#x2F;渲染委托相关<br>&#x2F;&#x2F;摄像机剔除前处理的委托函数<br>Camera.onPreCull +&#x3D; (c) &#x3D;&gt;<br>{<br>xxx<br>};<br>&#x2F;&#x2F;摄像机渲染前处理的委托<br>Camera.onPreRender +&#x3D; (c) &#x3D;&gt;<br>{</p>
+<p>};</p>
+<p>&#x2F;&#x2F;摄像机渲染后处理的委托<br>Camera.onPostRender +&#x3D; (c) &#x3D;&gt;{</p>
+<p>};</p>
+<p>&#x2F;&#x2F;重要成员<br>&#x2F;&#x2F;摄像机界面上的参数都可以在Camera中获取到<br>下面这句能得到主摄像机上的深度并设置<br>Camera.main.depth &#x3D; 10;</p>
+<p>&#x2F;&#x2F;世界坐标转屏幕坐标<br>&#x2F;&#x2F;转换过后x y就是屏幕坐标 z是物体离摄像机有多远<br>&#x2F;&#x2F;可以用来写血条功能<br>Camera.main.WorldToScreenPoint(Vector3 Position)</p>
+<p>&#x2F;&#x2F;屏幕坐标转世界坐标<br>Camera.main.ScreenToWorldPoint(Input.mousePosition)</p>
+<h1 id="光源系统"><a href="#光源系统" class="headerlink" title="光源系统"></a>光源系统</h1><p>public Light light;</p>
+<p>&#x2F;&#x2F;一般是拿代码控制面板的数值<br>&#x2F;&#x2F;几乎没有静态方法</p>
+<h1 id="物理系统之碰撞检测"><a href="#物理系统之碰撞检测" class="headerlink" title="物理系统之碰撞检测"></a>物理系统之碰撞检测</h1><p>&#x2F;&#x2F;碰撞产生的必要条件是两个物体都有碰撞器 至少一个物体有刚体</p>
+<p>连续动态 &gt; 连续推测 &gt; 连续检测 &gt; 离散检测</p>
+<p>物理材质参数<br>Dynamic Friction 移动时使用的摩擦力<br>Static Friction 静止时使用的摩擦力<br>通常为0-1之间的值<br>越趋近于0 摩擦力越小 越趋近于1 摩擦力越大</p>
+<p>Bounciness<br>表面弹性<br>值为0将不会反弹 值为1将在反弹时不会产生任何能量损失</p>
+<p>xxx combine 数值的计算方式 平均值 最大最小值 相乘</p>
+<h3 id="碰撞检测函数"><a href="#碰撞检测函数" class="headerlink" title="碰撞检测函数"></a>碰撞检测函数</h3><p> 注意：碰撞和触发响应 属于 特殊的生命周期函数 也是通过反射调用</p>
+<p>物理碰撞检测相应函数<br>Collision类型包含了碰到自己的对象的相关信息<br>关键参数<br>1.碰撞到的对象碰撞信息<br>collision.collider<br>2.碰撞对象的依附对象（GameObject）<br>collision.gameObject<br>3.碰撞对象的依附对象的位置信息<br>collision.transform<br>4.触碰点数相关<br>collision.contactCount<br>接触点具体坐标<br>ContactPoint[] pos &#x3D; collision.contacts</p>
+<p>只要得到了碰撞到的对象的一个信息就可以得到它所有的信息</p>
+<p>碰撞触发时会 自动执行的函数<br>private void OnCollisionEnter(Collision collision)<br>{</p>
+<p>}<br>碰撞结束分离式 自动执行的函数<br>private void OnCollisionExit(Collision collision)<br>{</p>
+<p>}<br>两个物体相互摩擦接触时 会不停的调用函数<br>private void OnCollisionStay(Collision collision)<br>{</p>
+<p>}</p>
+<h3 id="触发器碰撞检测函数"><a href="#触发器碰撞检测函数" class="headerlink" title="触发器碰撞检测函数"></a>触发器碰撞检测函数</h3><p>触发开始的函数<br>private  void OnTriggerEnter(Collider other)<br>{</p>
+<p>}</p>
+<p>触发结束的函数<br>private void OnTriggerExit(Collider other)<br>{</p>
+<p>}<br>触发持续时 一直不停调用的函数<br>private void OnTriggerStay(Collider other)<br>{</p>
+<p>}</p>
+<p>不用考虑物体上是否拥有刚体 只要脚本挂载的物体能和别的物体碰撞或触发 那么以上六个函数都能响应<br>如果一个异形物体 刚体在父对象上 子对象上的脚本检测是不行的 必须挂载到父对象上才行</p>
+<p>碰撞和触发器函数都能写成虚函数 在子类中重写<br>想要重写的 可以写成保护类型的 默认是private<br>一般不会使用public 因为不会手动调用 都是Unity反射自动调用</p>
+<h3 id="刚体加力"><a href="#刚体加力" class="headerlink" title="刚体加力:"></a>刚体加力:</h3><p>加力之后 对象是否停止移动是由阻力决定的<br>如果阻力为零 那么对象不会停止运动</p>
+<p>如果你希望有阻力但是也不会停止 可以试着Update里面给力</p>
+<p>世界坐标<br>向世界Z轴方向添加一个力<br>rigidBody.AddForce(Vector3.forward * 10);<br>向本地朝向添加力 理解类似位移<br>rigidBody.AddForce(this.transform.forward * 10);</p>
+<p>本地坐标<br>rigidBody.AddRelativeForce(Vector3.forward * 10);</p>
+<p>添加扭矩力<br>rigidBody.AddTorque(Vector3.forward * 10);</p>
+<p>直接改变速度<br>rigidBody.velocity &#x3D; Vector3.forward * 10;</p>
+<p>模拟爆炸效果<br>第一个参数 力的大小<br>第二个参数 爆炸中心<br>第三个参数 爆炸半径<br>rigidBody.AddExplosionForce(10, Vector3.zero, 10);</p>
+<p>力的几种模式<br>v &#x3D; Ft &#x2F; m<br>第二个参数 力的模式 主要作用 就是 计算方式不同而已<br>rigidBody.AddForce(Vector3.forward * 10, ForceMode.xxx)<br>Acceleration<br>给物体一个持续的加速度 忽略其质量<br>Force<br>给物体一个持续的力 与质量有关<br>Impulse<br>给物体一个瞬时的力，与物体的质量有关 忽略时间 默认为1<br>VelocityChange<br>给物体一个瞬时速度 忽略质量</p>
+<h3 id="补充-刚体的休眠"><a href="#补充-刚体的休眠" class="headerlink" title="补充 刚体的休眠"></a>补充 刚体的休眠</h3><p>在一定情况下 刚体会进入休眠 不参与计算 就会出bug<br>如果不想让刚体休眠<br>if( rigidBody.IsSleeping ){<br>	rigidBody.WakeUp();<br>}</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="http://zykblog.cn">Zyk</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="http://zykblog.cn/2026/04/17/%E4%B8%80%E4%BA%9BUnity%20%E7%AC%94%E8%AE%B0/">http://zykblog.cn/2026/04/17/%E4%B8%80%E4%BA%9BUnity%20%E7%AC%94%E8%AE%B0/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="http://zykblog.cn" target="_blank">zyk的垃圾屋</a>！</span></div></div><div class="tag_share"><div class="post-share"><div class="social-share" data-image="https://s41.ax1x.com/2026/04/16/pesTHKO.md.jpg" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related full-width" href="/2026/04/15/2026-4-15Blog%E8%AF%9E%E7%94%9F/" title="第一篇博客分享"><img class="cover" src="https://img.imgos.cn/cdn/20260416/bb5d81b8d3a908e0cdc04b4d8bcc2a62.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">第一篇博客分享</div></div><div class="info-2"><div class="info-item-1">我的Blog诞生了</div></div></div></a></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="https://s41.ax1x.com/2026/04/16/pes2Tvd.md.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Zyk</div><div class="author-info-description"></div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">2</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">0</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/zyk77450-cloud" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:zyk77450@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Time"><span class="toc-number">1.</span> <span class="toc-text">Time</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%B6%E9%97%B4%E7%BC%A9%E6%94%BE%E6%AF%94%E4%BE%8B"><span class="toc-number">1.1.</span> <span class="toc-text">时间缩放比例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%A7%E9%97%B4%E9%9A%94%E6%97%B6%E9%97%B4"><span class="toc-number">1.2.</span> <span class="toc-text">帧间隔时间</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B8%B8%E6%88%8F%E5%BC%80%E5%A7%8B%E5%88%B0%E7%8E%B0%E5%9C%A8%E7%9A%84%E6%97%B6%E9%97%B4"><span class="toc-number">1.3.</span> <span class="toc-text">游戏开始到现在的时间</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%89%A9%E7%90%86%E5%B8%A7%E9%97%B4%E9%9A%94%E6%97%B6%E9%97%B4-FixedUpdate"><span class="toc-number">1.4.</span> <span class="toc-text">物理帧间隔时间 FixedUpdate</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%A7%E6%95%B0"><span class="toc-number">1.5.</span> <span class="toc-text">帧数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">1.6.</span> <span class="toc-text">总结</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Transform"><span class="toc-number">2.</span> <span class="toc-text">Transform</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#vector3"><span class="toc-number">2.1.</span> <span class="toc-text">vector3</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Vector3%E5%9F%BA%E6%9C%AC%E8%BF%90%E7%AE%97"><span class="toc-number">2.1.1.</span> <span class="toc-text">Vector3基本运算</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%8D%E7%BD%AE"><span class="toc-number">2.2.</span> <span class="toc-text">位置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%92%E5%BA%A6%E5%92%8C%E6%97%8B%E8%BD%AC"><span class="toc-number">2.3.</span> <span class="toc-text">角度和旋转</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%A7%92%E5%BA%A6"><span class="toc-number">2.3.1.</span> <span class="toc-text">角度</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%97%8B%E8%BD%AC"><span class="toc-number">2.3.2.</span> <span class="toc-text">旋转</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%A9%E6%94%BE%E5%92%8C%E7%9C%8B%E5%90%91"><span class="toc-number">2.4.</span> <span class="toc-text">缩放和看向</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BC%A9%E6%94%BE"><span class="toc-number">2.4.1.</span> <span class="toc-text">缩放</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%9C%8B%E5%90%91"><span class="toc-number">2.4.2.</span> <span class="toc-text">看向</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%88%B6%E5%AD%90%E5%85%B3%E7%B3%BB"><span class="toc-number">2.5.</span> <span class="toc-text">父子关系</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9D%90%E6%A0%87%E8%BD%AC%E6%8D%A2"><span class="toc-number">2.6.</span> <span class="toc-text">坐标转换</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#input%E8%BE%93%E5%85%A5"><span class="toc-number">3.</span> <span class="toc-text">input输入</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%BC%A0%E6%A0%87%E9%94%AE%E7%9B%98%E8%BE%93%E5%85%A5"><span class="toc-number">3.1.</span> <span class="toc-text">鼠标键盘输入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A3%80%E6%B5%8B%E9%BB%98%E8%AE%A4%E8%BD%B4%E8%BE%93%E5%85%A5"><span class="toc-number">3.2.</span> <span class="toc-text">检测默认轴输入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B6%E5%AE%83%E7%B1%BB%E8%BE%93%E5%85%A5"><span class="toc-number">3.3.</span> <span class="toc-text">其它类输入</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%89%8B%E6%9F%84%E8%BE%93%E5%85%A5"><span class="toc-number">3.3.1.</span> <span class="toc-text">手柄输入</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%A7%BB%E5%8A%A8%E8%AE%BE%E5%A4%87%E8%BE%93%E5%85%A5"><span class="toc-number">3.3.2.</span> <span class="toc-text">移动设备输入</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%99%80%E8%9E%BA%E4%BB%AA-%E9%87%8D%E5%8A%9B%E6%84%9F%E5%BA%94"><span class="toc-number">3.3.3.</span> <span class="toc-text">陀螺仪(重力感应)</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93-1"><span class="toc-number">3.4.</span> <span class="toc-text">总结</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Screen%E5%B1%8F%E5%B9%95%E7%9B%B8%E5%85%B3"><span class="toc-number">4.</span> <span class="toc-text">Screen屏幕相关</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9D%99%E6%80%81%E5%B1%9E%E6%80%A7"><span class="toc-number">4.1.</span> <span class="toc-text">静态属性</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8"><span class="toc-number">4.1.1.</span> <span class="toc-text">常用:</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%8D%E5%B8%B8%E7%94%A8"><span class="toc-number">4.1.2.</span> <span class="toc-text">不常用</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9D%99%E6%80%81%E6%96%B9%E6%B3%95"><span class="toc-number">4.2.</span> <span class="toc-text">静态方法</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Camera"><span class="toc-number">5.</span> <span class="toc-text">Camera</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E7%9B%B8%E5%85%B3"><span class="toc-number">5.1.</span> <span class="toc-text">代码相关</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%85%89%E6%BA%90%E7%B3%BB%E7%BB%9F"><span class="toc-number">6.</span> <span class="toc-text">光源系统</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%89%A9%E7%90%86%E7%B3%BB%E7%BB%9F%E4%B9%8B%E7%A2%B0%E6%92%9E%E6%A3%80%E6%B5%8B"><span class="toc-number">7.</span> <span class="toc-text">物理系统之碰撞检测</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A2%B0%E6%92%9E%E6%A3%80%E6%B5%8B%E5%87%BD%E6%95%B0"><span class="toc-number">7.1.</span> <span class="toc-text">碰撞检测函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A6%E5%8F%91%E5%99%A8%E7%A2%B0%E6%92%9E%E6%A3%80%E6%B5%8B%E5%87%BD%E6%95%B0"><span class="toc-number">7.2.</span> <span class="toc-text">触发器碰撞检测函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9A%E4%BD%93%E5%8A%A0%E5%8A%9B"><span class="toc-number">7.3.</span> <span class="toc-text">刚体加力:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A1%A5%E5%85%85-%E5%88%9A%E4%BD%93%E7%9A%84%E4%BC%91%E7%9C%A0"><span class="toc-number">7.4.</span> <span class="toc-text">补充 刚体的休眠</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2026/04/17/%E4%B8%80%E4%BA%9BUnity%20%E7%AC%94%E8%AE%B0/" title="Unity笔记"><img src="https://s41.ax1x.com/2026/04/16/pesTHKO.md.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Unity笔记"/></a><div class="content"><a class="title" href="/2026/04/17/%E4%B8%80%E4%BA%9BUnity%20%E7%AC%94%E8%AE%B0/" title="Unity笔记">Unity笔记</a><time datetime="2026-04-17T05:42:00.000Z" title="发表于 2026-04-17 13:42:00">2026-04-17</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/04/15/2026-4-15Blog%E8%AF%9E%E7%94%9F/" title="第一篇博客分享"><img src="https://img.imgos.cn/cdn/20260416/bb5d81b8d3a908e0cdc04b4d8bcc2a62.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="第一篇博客分享"/></a><div class="content"><a class="title" href="/2026/04/15/2026-4-15Blog%E8%AF%9E%E7%94%9F/" title="第一篇博客分享">第一篇博客分享</a><time datetime="2026-04-15T14:00:00.000Z" title="发表于 2026-04-15 22:00:00">2026-04-15</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2026 By Zyk</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 8.1.1</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.4</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i><span id="percent">0<span>%</span></span></button></div></div><div><script src="/js/utils.js?v=5.5.4"></script><script src="/js/main.js?v=5.5.4"></script><script src="/js/tw_cn.js?v=5.5.4"></script><div class="js-pjax"></div><script defer src="https://npm.elemecdn.com/jquery@latest/dist/jquery.min.js"></script><script defer data-pjax src="/js/cat.js"></script><script defer data-pjax src="/js/readPercent.js"></script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/canvas-nest.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-show-text" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/click-show-text.min.js" data-mobile="false" data-text="Click!,就你了!,点击!,?!" data-fontsize="15px" data-random="true" async="async"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><i class="fas fa-spinner fa-pulse" id="loading-status" hidden="hidden"></i><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据加载中</span></div><div class="local-search-input"><input placeholder="搜索文章" type="text"/></div><hr/><div id="local-search-results"></div><div class="ais-Pagination" id="local-search-pagination" style="display:none;"><ul class="ais-Pagination-list"></ul></div><div id="local-search-stats"></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=5.5.4"></script></div></div><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"left","width":150,"height":300},"mobile":{"show":false},"log":false});</script></body></html>
