@@ -1,4 +1,57 @@
-/* 页脚与头图透明 */
+/* ============================================================
+   zyk 的博客 自定义美化样式（基于 Butterfly 5.x）
+   保留原有特色：透明页头页脚 / 毛玻璃卡片 / 渐变信息卡 / 头像呼吸灯
+   ============================================================ */
+
+/* ---------- 全局基调 ---------- */
+
+:root {
+  --trans-light: rgba(255, 255, 255, 0.88);
+  --trans-dark: rgba(25, 25, 25, 0.88);
+  --border-style: 1px solid rgba(0, 0, 0, 0.06);
+  --border-style-dark: 1px solid rgba(255, 255, 255, 0.09);
+  --backdrop-filter: blur(8px) saturate(150%);
+  --card-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+  --card-hover-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
+  --theme-teal: #3eb8be;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* 文本选中的颜色 */
+::selection {
+  background: #a3e9eb;
+  color: #1c3538;
+}
+
+[data-theme="dark"] ::selection {
+  background: rgba(62, 184, 190, 0.4);
+  color: #e8fafa;
+}
+
+/* 自定义滚动条（细 + 圆角 + 主题色） */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(62, 184, 190, 0.6);
+  border-radius: 8px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--theme-teal);
+}
+
+/* ---------- 页脚与头图透明（保留原有设计） ---------- */
+
 #footer {
   background: transparent !important;
 }
@@ -6,84 +59,137 @@
   background: transparent !important;
 }
 
-/* 白天模式遮罩透明 */
-#footer::before {
-  background: transparent !important;
-}
+#footer::before,
 #page-header::before {
   background: transparent !important;
 }
 
-/* 夜间模式遮罩透明 */
-[data-theme="dark"] #footer::before {
-  background: transparent !important;
-}
+[data-theme="dark"] #footer::before,
 [data-theme="dark"] #page-header::before {
   background: transparent !important;
 }
 
-:root {
-  --trans-light: rgba(255, 255, 255, 0.88);
-  --trans-dark: rgba(25, 25, 25, 0.88);
-  --border-style: 1px solid rgb(169, 169, 169);
-  --backdrop-filter: blur(5px) saturate(150%);
+/* 站点标题的投影在 v2 段用 drop-shadow 实现（配合渐变字） */
+#site-subtitle {
+  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.35);
 }
 
-/* 首页文章卡片 */
+/* 打字机光标颜色 */
+.typed-cursor {
+  color: var(--theme-teal);
+}
+
+/* ---------- 首页文章卡片：毛玻璃 + 悬停上浮 ---------- */
+
 #recent-posts > .recent-post-item {
   background: var(--trans-light);
   backdrop-filter: var(--backdrop-filter);
-  border-radius: 25px;
+  -webkit-backdrop-filter: var(--backdrop-filter);
+  border-radius: 18px;
   border: var(--border-style);
+  box-shadow: var(--card-shadow);
+  transition: box-shadow 0.35s ease, transform 0.35s ease;
 }
 
-/* 首页侧栏卡片 */
+#recent-posts > .recent-post-item:hover {
+  box-shadow: var(--card-hover-shadow);
+  transform: translateY(-4px);
+}
+
+/* 封面图悬停放大 */
+#recent-posts > .recent-post-item .post_cover {
+  overflow: hidden;
+}
+
+#recent-posts > .recent-post-item .post_cover img {
+  transition: transform 0.6s ease;
+}
+
+#recent-posts > .recent-post-item:hover .post_cover img {
+  transform: scale(1.05);
+}
+
+/* 文章卡片标题悬停变主题色 */
+.recent-post-info .article-title:hover {
+  color: var(--theme-teal) !important;
+}
+
+/* ---------- 侧栏卡片 ---------- */
+
 #aside-content .card-widget {
   background: var(--trans-light);
   backdrop-filter: var(--backdrop-filter);
-  border-radius: 18px;
+  -webkit-backdrop-filter: var(--backdrop-filter);
+  border-radius: 14px;
   border: var(--border-style);
+  box-shadow: var(--card-shadow);
+  transition: box-shadow 0.35s ease;
 }
 
-/* 文章页、归档页、普通页面 */
+#aside-content .card-widget:hover {
+  box-shadow: var(--card-hover-shadow);
+}
+
+/* ---------- 文章页 / 归档页 / 普通页面 ---------- */
+
 div#post,
 div#page,
 div#archive {
   background: var(--trans-light);
   backdrop-filter: var(--backdrop-filter);
+  -webkit-backdrop-filter: var(--backdrop-filter);
   border: var(--border-style);
-  border-radius: 20px;
+  border-radius: 18px;
+  box-shadow: var(--card-shadow);
 }
 
-/* 导航栏 */
+/* ---------- 导航栏 ---------- */
+
 #page-header.nav-fixed #nav {
   background: rgba(255, 255, 255, 0.75);
   backdrop-filter: var(--backdrop-filter);
+  -webkit-backdrop-filter: var(--backdrop-filter);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
 }
 
 [data-theme="dark"] #page-header.nav-fixed #nav {
   background: rgba(0, 0, 0, 0.7) !important;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
 }
 
-/* 夜间模式遮罩 */
+/* 导航项悬停微微上浮 */
+#nav .site-page {
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+#nav .site-page:hover {
+  transform: translateY(-2px);
+}
+
+/* ---------- 暗色模式卡片统一适配 ---------- */
+
 [data-theme="dark"] #recent-posts > .recent-post-item,
 [data-theme="dark"] #aside-content .card-widget,
 [data-theme="dark"] div#post,
 [data-theme="dark"] div#archive,
 [data-theme="dark"] div#page {
   background: var(--trans-dark);
+  border: var(--border-style-dark);
 }
 
-
-/* 夜间模式页脚页头遮罩透明 */
-[data-theme="dark"] #footer::before {
-  background: transparent !important;
-}
-[data-theme="dark"] #page-header::before {
-  background: transparent !important;
+[data-theme="dark"] #recent-posts > .recent-post-item,
+[data-theme="dark"] div#post,
+[data-theme="dark"] div#archive,
+[data-theme="dark"] div#page {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
 }
 
-/* 阅读模式 */
+[data-theme="dark"] #recent-posts > .recent-post-item:hover {
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
+}
+
+/* ---------- 阅读模式（保留原有配色） ---------- */
+
 .read-mode #aside-content .card-widget {
   background: rgba(158, 204, 171, 0.5) !important;
 }
@@ -91,7 +197,6 @@ div#archive {
   background: rgba(158, 204, 171, 0.5) !important;
 }
 
-/* 夜间模式下的阅读模式 */
 [data-theme="dark"] .read-mode #aside-content .card-widget {
   background: rgba(25, 25, 25, 0.9) !important;
   color: #ffffff;
@@ -101,7 +206,8 @@ div#archive {
   color: #ffffff;
 }
 
-/* 侧边栏个人信息卡片动态渐变色 */
+/* ---------- 侧边栏个人信息卡片动态渐变色（保留原有设计） ---------- */
+
 #aside-content > .card-widget.card-info {
   background: linear-gradient(
     -45deg,
@@ -152,23 +258,24 @@ div#archive {
   }
 }
 
-/* 黑夜模式适配 */
 [data-theme="dark"] #aside-content > .card-widget.card-info {
   background: #191919ee;
 }
 
-/* 个人信息Follow me按钮 */
+/* 个人信息 Follow me 按钮 */
 #aside-content > .card-widget.card-info > #card-info-btn {
   background-color: #3eb8be;
   border-radius: 8px;
+  transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
-/* 标题阴影加深 */
-#site-title {
-  text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.3) !important;
+#aside-content > .card-widget.card-info > #card-info-btn:hover {
+  background-color: #2f9197;
+  transform: translateY(-2px);
 }
 
-/* 头像呼吸灯 */
+/* ---------- 头像呼吸灯（保留原有设计） ---------- */
+
 [data-theme="light"] .avatar-img {
   animation: huxi_light 4s ease-in-out infinite;
 }
@@ -195,5 +302,374 @@ div#archive {
   }
   100% {
     box-shadow: 0px 0px 1px 1px #39c5bb;
+  }
+}
+
+/* ---------- 正文排版精修 ---------- */
+
+/* 文章内链接：悬停显示下划线 */
+#article-container a {
+  text-decoration: none;
+  transition: color 0.25s ease;
+}
+
+#article-container a:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+/* 正文图片圆角 + 阴影 */
+#article-container img {
+  border-radius: 10px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+/* 引用块：主题色左条 + 圆角 */
+#article-container blockquote {
+  border-radius: 0 8px 8px 0;
+  transition: background-color 0.3s ease;
+}
+
+/* 表格：圆角 + 斑马纹 */
+#article-container table {
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+}
+
+#article-container table th {
+  background: rgba(62, 184, 190, 0.12);
+}
+
+#article-container table tr:hover td {
+  background: rgba(62, 184, 190, 0.06);
+}
+
+/* 代码块圆角 */
+#article-container figure.highlight,
+#article-container pre {
+  border-radius: 10px;
+}
+
+/* 行内代码 */
+#article-container code {
+  border-radius: 4px;
+}
+
+/* 标题锚点悬停才显示 */
+#article-container .headerlink {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+#article-container h1:hover .headerlink,
+#article-container h2:hover .headerlink,
+#article-container h3:hover .headerlink,
+#article-container h4:hover .headerlink,
+#article-container h5:hover .headerlink,
+#article-container h6:hover .headerlink {
+  opacity: 1;
+}
+
+/* 文章顶部信息微调 */
+#post .post-meta {
+  letter-spacing: 0.3px;
+}
+
+/* ---------- 分页器：胶囊按钮 ---------- */
+
+#pagination .pagination a,
+#pagination .pagination span {
+  border-radius: 8px;
+  transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+}
+
+#pagination .pagination a:hover {
+  transform: translateY(-2px);
+}
+
+/* ---------- 目录（TOC）激活态 ---------- */
+
+#aside-content #toc-content .toc-link {
+  border-radius: 6px;
+  transition: color 0.25s ease;
+}
+
+#aside-content #toc-content .toc-link.active {
+  font-weight: 600;
+}
+
+/* ---------- 归档页条目悬停 ---------- */
+
+#archive .article-sort-item {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border-radius: 12px;
+}
+
+#archive .article-sort-item:hover {
+  transform: translateX(4px);
+}
+
+/* ---------- 标签 / 分类页 ---------- */
+
+.tag-cloud-list a,
+.card-tag-cloud a {
+  border-radius: 8px;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.tag-cloud-list a:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(62, 184, 190, 0.3);
+}
+
+/* ---------- 相关文章卡片悬停 ---------- */
+
+#relatedPosts .relatedPosts_item {
+  border-radius: 12px;
+  overflow: hidden;
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+
+#relatedPosts .relatedPosts_item:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.15);
+}
+
+/* ---------- 页脚 ---------- */
+
+#footer-wrap {
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* ---------- 移动端适配 ---------- */
+
+@media (max-width: 768px) {
+  #recent-posts > .recent-post-item {
+    border-radius: 14px;
+  }
+
+  #aside-content .card-widget,
+  div#post,
+  div#page,
+  div#archive {
+    border-radius: 12px;
+  }
+
+  /* 低性能设备上减弱毛玻璃，保证滚动流畅 */
+  #recent-posts > .recent-post-item,
+  #aside-content .card-widget,
+  div#post,
+  div#page,
+  div#archive {
+    backdrop-filter: blur(4px) saturate(130%);
+    -webkit-backdrop-filter: blur(4px) saturate(130%);
+  }
+}
+
+/* ============================================================
+   v2 设计升级：青 → 紫 → 粉 三色渐变体系（呼应侧栏渐变信息卡）
+   ============================================================ */
+
+:root {
+  --grad-flow: linear-gradient(135deg, #3eb8be, #7c6ff0, #fb7185);
+  --grad-flow-horizontal: linear-gradient(90deg, #3eb8be, #7c6ff0, #fb7185, #3eb8be);
+  --pink-accent: #fb7185;
+}
+
+/* ---------- 站点标题：流动渐变字 ---------- */
+
+#site-title {
+  background: var(--grad-flow-horizontal);
+  background-size: 300% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(2px 4px 6px rgba(0, 0, 0, 0.35));
+  animation: gradient-flow 10s linear infinite;
+}
+
+@keyframes gradient-flow {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 300% 50%;
+  }
+}
+
+/* ---------- 文本选中改为樱粉色（与青色滚动条形成双色呼应） ---------- */
+
+::selection {
+  background: #fecdd3;
+  color: #641723;
+}
+
+[data-theme="dark"] ::selection {
+  background: rgba(251, 113, 133, 0.4);
+  color: #ffe4e6;
+}
+
+/* ---------- 导航项：hover 展开渐变下划线 ---------- */
+
+#nav .site-page {
+  position: relative;
+}
+
+#nav .site-page::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -4px;
+  width: 0;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--grad-flow);
+  transition: width 0.3s ease, left 0.3s ease;
+}
+
+#nav .site-page:hover::after {
+  width: 100%;
+  left: 0;
+}
+
+/* ---------- 首页卡片：hover 渐变描边 + 顶部高光线 ---------- */
+
+#recent-posts > .recent-post-item {
+  position: relative;
+}
+
+#recent-posts > .recent-post-item::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1.5px;
+  background: var(--grad-flow);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  pointer-events: none;
+  z-index: 1;
+}
+
+#recent-posts > .recent-post-item:hover::before {
+  opacity: 0.9;
+}
+
+#recent-posts > .recent-post-item::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 15%;
+  right: 15%;
+  height: 2px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, transparent, #7c6ff0, transparent);
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  pointer-events: none;
+}
+
+#recent-posts > .recent-post-item:hover::after {
+  opacity: 1;
+}
+
+/* 卡片标题 hover 时变成渐变字 */
+.recent-post-info .article-title {
+  transition: opacity 0.25s ease;
+}
+
+.recent-post-info .article-title:hover {
+  background: var(--grad-flow);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* ---------- Follow Me 按钮：青紫渐变 ---------- */
+
+#aside-content > .card-widget.card-info > #card-info-btn {
+  background-image: linear-gradient(135deg, #3eb8be, #7c6ff0);
+  background-color: transparent;
+}
+
+#aside-content > .card-widget.card-info > #card-info-btn:hover {
+  background-image: linear-gradient(135deg, #7c6ff0, #fb7185);
+}
+
+/* ---------- 正文 h2：渐变底边线 ---------- */
+
+#article-container h2 {
+  padding-bottom: 0.3em;
+  background-image: linear-gradient(90deg, rgba(62, 184, 190, 0.45), rgba(251, 113, 133, 0.25));
+  background-repeat: no-repeat;
+  background-size: 100% 2px;
+  background-position: 0 100%;
+}
+
+/* ---------- 分页当前页：渐变胶囊 ---------- */
+
+#pagination .pagination .current {
+  background: linear-gradient(135deg, #3eb8be, #7c6ff0);
+  box-shadow: 0 4px 12px rgba(62, 184, 190, 0.35);
+}
+
+/* ---------- 页脚：渐变分割线 ---------- */
+
+#footer-wrap::before {
+  content: "";
+  display: block;
+  height: 2px;
+  width: 60%;
+  margin: 0 auto 1.2rem;
+  border-radius: 2px;
+  background: linear-gradient(90deg, transparent, #3eb8be, #fb7185, transparent);
+}
+
+/* ---------- 顶部渐变阅读进度条 ---------- */
+
+#reading-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  width: 0;
+  z-index: 1040;
+  border-radius: 0 3px 3px 0;
+  background: var(--grad-flow-horizontal);
+  background-size: 200% 100%;
+  box-shadow: 0 0 8px rgba(124, 111, 240, 0.5);
+  transition: width 0.1s ease-out;
+}
+
+/* ---------- 暗色模式微调 ---------- */
+
+[data-theme="dark"] #recent-posts > .recent-post-item:hover::before {
+  opacity: 0.7;
+}
+
+/* ---------- 移动端 ---------- */
+
+@media (max-width: 768px) {
+  #footer-wrap::before {
+    width: 85%;
+  }
+}
+
+/* 尊重系统"减少动态效果"设置 */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
   }
 }
